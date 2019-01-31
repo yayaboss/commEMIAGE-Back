@@ -3,12 +3,14 @@ const mongoose 	= require('mongoose'),
     Schema	 	= mongoose.Schema;
 
 //------------------------------------------- Resources Schema
-let FiliereSchema = new Schema({
+let ApprenantSchema = new Schema({
     id : {type: String, unique: true},
-    nom : String,
-    description : String,
+    utilisateur :  {type: Object, objectType: {
+        nom: String
+      }},
+    dateFormation : Date,
     modules : Array,
     apprenants : Array
 });
 
-mongoose.model('Filiere', FiliereSchema);
+mongoose.model('Apprenant', ApprenantSchema);

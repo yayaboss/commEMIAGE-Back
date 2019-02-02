@@ -1,1 +1,1 @@
-# commEMIAGE-Back
+# commEMIAGE-Back - Ce dossier contient quatre dossiers (Models, mongo_bdd,node_modules, routes) et trois fichiers (deux consacrés aux packages, server.js).

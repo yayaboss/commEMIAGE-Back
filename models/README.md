@@ -1,0 +1,1 @@
+# commEMIAGE-Back : Models - Ce dossier contient les schemas permettants de traduire les données stockées via mongoDB.

@@ -4,13 +4,20 @@ const mongoose 	= require('mongoose'),
 
 //------------------------------------------- Resources Schema
 let ModuleSchema = new Schema({
-    id : {type: String, unique: true},
     nom : String,
     coefficient : {type: Number, min: 0, default: 1},
     seuil : {type: Number, min: 0, default: 10},
     filiere : {type: Object, objectType: {
         nom: String
-      }}
+    }},
+    tuteur : {type: Object, objectType: {
+        nom : String,
+        prenom : String
+    }},
+    semestre : {type: Object, objectType: {
+        nom : String
+    }}
 });
 
-mongoose.model('Module', ModuleSchema);
+let Module = mongoose.model('Module', ModuleSchema);
+module.exports = Module;

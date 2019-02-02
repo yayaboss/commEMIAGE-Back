@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
 // -- Load model needed for the project
-require('../models/Utilisateur');
+require('../models/Administrateur');
 
 lienErreur = '/error';
 lienAll = '/';
@@ -18,8 +18,8 @@ lienSupprimer = '/delete/:id';
 lienGet = '/get/:id';
 
 pageErreur ='';
-pageUtilisateurs = '';
-pageUtilisateur = '';
+pageAdministrateurs = '';
+pageAdministrateur = '';
 
 // -- ERROR
 app.get(lienErreur, function(req, res) {
@@ -28,18 +28,18 @@ app.get(lienErreur, function(req, res) {
 
 // -- FIND ALL
 app.get(lienAll, function (req, res) {
-    let Utilisateur = mongoose.model('Utilisateur');
-    Utilisateur.find().then((utilisateurs)=>{
-        res.render(pageUtilisateurs, utilisateurs);
+    let Administrateur = mongoose.model('Administrateur');
+    Administrateur.find().then((administrateurs)=>{
+        res.render(pageAdministrateurs, administrateurs);
     })
 });
 // -- CREATE
 app.post(lienAjouter, function (req, res) {
-    let Utilisateur = mongoose.model('Utilisateur');
-    let newUtilisateur = new Utilisateur(req.body);
-    newUtilisateur.id = newUtilisateur._id;
+    let Administrateur = mongoose.model('Administrateur');
+    let newAdministrateur = new Administrateur(req.body);
+    newAdministrateur.id = newAdministrateur._id;
 
-    newUtilisateur.save().then(()=>{
+    newAdministrateur.save().then(()=>{
         res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
@@ -48,7 +48,7 @@ app.post(lienAjouter, function (req, res) {
 
 // -- UPDATE
 app.put(lienModifier, function (req, res) {
-    mongoose.model('Utilisateur').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedUtilisateur)=>{
+    mongoose.model('Administrateur').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedAdministrateur)=>{
        if(err){
             res.redirect(lienErreur);
        }else{
@@ -59,8 +59,8 @@ app.put(lienModifier, function (req, res) {
 
 // -- DELETE
 app.delete(lienSupprimer, function (req, res) {
-    let Utilisateur = mongoose.model('Utilisateur');
-    Utilisateur.find({id : req.params.id}).deleteOne().then(()=>{
+    let Administrateur = mongoose.model('Administrateur');
+    Administrateur.find({id : req.params.id}).deleteOne().then(()=>{
         res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
@@ -69,9 +69,9 @@ app.delete(lienSupprimer, function (req, res) {
 
 // -- READ
 app.get(lienGet, function (req, res) {
-    mongoose.model('Utilisateur').findOne({id : req.params.id}).then((utilisateur)=>{
-        if(utilisateur){
-            res.render(pageUtilisateur, utilisateur);
+    mongoose.model('Administrateur').findOne({id : req.params.id}).then((administrateur)=>{
+        if(administrateur){
+            res.render(pageAdministrateur, administrateur);
         }else{
             res.status(404).json({message : "Inexistant"});
         }

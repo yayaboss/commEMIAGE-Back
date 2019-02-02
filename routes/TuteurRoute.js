@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
 // -- Load model needed for the project
-require('../models/Utilisateur');
+require('../models/Tuteur');
 
 lienErreur = '/error';
 lienAll = '/';
@@ -18,8 +18,8 @@ lienSupprimer = '/delete/:id';
 lienGet = '/get/:id';
 
 pageErreur ='';
-pageUtilisateurs = '';
-pageUtilisateur = '';
+pageTuteurs = '';
+pageTuteur = '';
 
 // -- ERROR
 app.get(lienErreur, function(req, res) {
@@ -28,18 +28,18 @@ app.get(lienErreur, function(req, res) {
 
 // -- FIND ALL
 app.get(lienAll, function (req, res) {
-    let Utilisateur = mongoose.model('Utilisateur');
-    Utilisateur.find().then((utilisateurs)=>{
-        res.render(pageUtilisateurs, utilisateurs);
+    let Tuteur = mongoose.model('Tuteur');
+    Tuteur.find().then((tuteurs)=>{
+        res.render(pageTuteurs, tuteurs);
     })
 });
 // -- CREATE
 app.post(lienAjouter, function (req, res) {
-    let Utilisateur = mongoose.model('Utilisateur');
-    let newUtilisateur = new Utilisateur(req.body);
-    newUtilisateur.id = newUtilisateur._id;
+    let Tuteur = mongoose.model('Tuteur');
+    let newTuteur = new Tuteur(req.body);
+    newTuteur.id = newTuteur._id;
 
-    newUtilisateur.save().then(()=>{
+    newTuteur.save().then(()=>{
         res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
@@ -48,7 +48,7 @@ app.post(lienAjouter, function (req, res) {
 
 // -- UPDATE
 app.put(lienModifier, function (req, res) {
-    mongoose.model('Utilisateur').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedUtilisateur)=>{
+    mongoose.model('Tuteur').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedTuteur)=>{
        if(err){
             res.redirect(lienErreur);
        }else{
@@ -59,8 +59,8 @@ app.put(lienModifier, function (req, res) {
 
 // -- DELETE
 app.delete(lienSupprimer, function (req, res) {
-    let Utilisateur = mongoose.model('Utilisateur');
-    Utilisateur.find({id : req.params.id}).deleteOne().then(()=>{
+    let Tuteur = mongoose.model('Tuteur');
+    Tuteur.find({id : req.params.id}).deleteOne().then(()=>{
         res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
@@ -69,9 +69,9 @@ app.delete(lienSupprimer, function (req, res) {
 
 // -- READ
 app.get(lienGet, function (req, res) {
-    mongoose.model('Utilisateur').findOne({id : req.params.id}).then((utilisateur)=>{
-        if(utilisateur){
-            res.render(pageUtilisateur, utilisateur);
+    mongoose.model('Tuteur').findOne({id : req.params.id}).then((tuteur)=>{
+        if(tuteur){
+            res.render(pageTuteur, tuteur);
         }else{
             res.status(404).json({message : "Inexistant"});
         }

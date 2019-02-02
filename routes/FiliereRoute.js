@@ -1,23 +1,21 @@
 express = require('express'),
 app = express();
-session = require('cookie-session');
 
 // --- middleware
 // - body-parser needed to catch and to treat information inside req.body
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
-app.use(session({secret: 'todotopsecret'}))
 
 // -- Load model needed for the project
 require('../models/Filiere');
 
 lienErreur = '/error';
-lienFindAll = '/AllFilieres';
-lienAjouter = '/AjouterFiliere';
-lienModifier = '/ModifierFiliere';
-lienSupprimer = '/SupprimerFiliere/:id';
-lienGet = '/GetFiliere/:id';
+lienAll = '/';
+lienAjouter = '/add';
+lienModifier = '/update/:id';
+lienSupprimer = '/delete/:id';
+lienGet = '/get/:id';
 
 pageErreur ='';
 pageFilieres = '';
@@ -29,7 +27,7 @@ app.get(lienErreur, function(req, res) {
 })
 
 // -- FIND ALL
-app.get(lienFindAll, function (req, res) {
+app.get(lienAll, function (req, res) {
     let Filiere = mongoose.model('Filiere');
     Filiere.find().then((filieres)=>{
         res.render(pageFilieres, filieres);
@@ -42,7 +40,7 @@ app.post(lienAjouter, function (req, res) {
     newFiliere.id = newFiliere._id;
 
     newFiliere.save().then(()=>{
-        res.redirect(lienFindAll);
+        res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
     })
@@ -50,11 +48,11 @@ app.post(lienAjouter, function (req, res) {
 
 // -- UPDATE
 app.put(lienModifier, function (req, res) {
-    mongoose.model('Filiere').updateOne({id : req.body.id}, {$set : req.body}, (err, updatedFiliere)=>{
+    mongoose.model('Filiere').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedFiliere)=>{
        if(err){
             res.redirect(lienErreur);
        }else{
-            res.redirect(lienFindAll);
+            res.redirect(lienAll);
        }
     });
 });
@@ -63,7 +61,7 @@ app.put(lienModifier, function (req, res) {
 app.delete(lienSupprimer, function (req, res) {
     let Filiere = mongoose.model('Filiere');
     Filiere.find({id : req.params.id}).deleteOne().then(()=>{
-        res.redirect(lienFindAll);
+        res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
     });
@@ -81,3 +79,5 @@ app.get(lienGet, function (req, res) {
         res.redirect(lienErreur);
     });
 });
+
+module.exports = app;

@@ -1,23 +1,21 @@
 express = require('express'),
 app = express();
-session = require('cookie-session');
 
 // --- middleware
 // - body-parser needed to catch and to treat information inside req.body
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
-app.use(session({secret: 'todotopsecret'}))
 
 // -- Load model needed for the project
 require('../models/Apprenant');
 
 lienErreur = '/error';
-lienFindAll = '/AllApprenants';
-lienAjouter = '/AjouterApprenant';
-lienModifier = '/ModifierApprenant';
-lienSupprimer = '/SupprimerApprenant/:id';
-lienGet = '/GetApprenant/:id';
+lienAll = '/';
+lienAjouter = '/add';
+lienModifier = '/update/:id';
+lienSupprimer = '/delete/:id';
+lienGet = '/get/:id';
 
 pageErreur ='';
 pageApprenants = '';
@@ -29,7 +27,7 @@ app.get(lienErreur, function(req, res) {
 })
 
 // -- FIND ALL
-app.get(lienFindAll, function (req, res) {
+app.get(lienAll, function (req, res) {
     let Apprenant = mongoose.model('Apprenant');
     Apprenant.find().then((apprenants)=>{
         res.render(pageApprenants, apprenants);
@@ -42,7 +40,7 @@ app.post(lienAjouter, function (req, res) {
     newApprenant.id = newApprenant._id;
 
     newApprenant.save().then(()=>{
-        res.redirect(lienFindAll);
+        res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
     })
@@ -50,11 +48,11 @@ app.post(lienAjouter, function (req, res) {
 
 // -- UPDATE
 app.put(lienModifier, function (req, res) {
-    mongoose.model('Apprenant').updateOne({id : req.body.id}, {$set : req.body}, (err, updatedApprenant)=>{
+    mongoose.model('Apprenant').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedApprenant)=>{
        if(err){
             res.redirect(lienErreur);
        }else{
-            res.redirect(lienFindAll);
+            res.redirect(lienAll);
        }
     });
 });
@@ -63,7 +61,7 @@ app.put(lienModifier, function (req, res) {
 app.delete(lienSupprimer, function (req, res) {
     let Apprenant = mongoose.model('Apprenant');
     Apprenant.find({id : req.params.id}).deleteOne().then(()=>{
-        res.redirect(lienFindAll);
+        res.redirect(lienAll);
     },(err)=>{
         res.redirect(lienErreur);
     });
@@ -81,3 +79,5 @@ app.get(lienGet, function (req, res) {
         res.redirect(lienErreur);
     });
 });
+
+module.exports = app;

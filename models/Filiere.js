@@ -4,11 +4,16 @@ const mongoose 	= require('mongoose'),
 
 //------------------------------------------- Resources Schema
 let FiliereSchema = new Schema({
-    id : {type: String, unique: true},
     nom : String,
     description : String,
-    modules : Array,
-    apprenants : Array
+    module : [{
+            nom : String
+    }],
+    apprenant : {type: Object, objectType: {
+        nom : String,
+        prenom : String
+    }}
 });
 
-mongoose.model('Filiere', FiliereSchema);
+let Filiere = mongoose.model('Filiere', FiliereSchema);
+module.exports = Filiere;

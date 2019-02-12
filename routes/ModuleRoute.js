@@ -23,11 +23,15 @@ pageModule = '';
 
 // -- ERROR
 app.get(lienErreur, function(req, res) {
+    console.log("Module: ERROR");
+
     res.render(pageErreur);
 })
 
 // -- FIND ALL
 app.get(lienAll, function (req, res) {
+    console.log("Module: FIND ALL");
+
     let Module = mongoose.model('Module');
     Module.find().then((modules)=>{
         res.render(pageModules, modules);
@@ -35,8 +39,11 @@ app.get(lienAll, function (req, res) {
 });
 // -- CREATE
 app.post(lienAjouter, function (req, res) {
+    console.log("Module: CREATE");
+
     let Module = mongoose.model('Module');
     let newModule = new Module(req.body);
+    console.log("add module:" + newModule);
     newModule.id = newModule._id;
 
     newModule.save().then(()=>{
@@ -48,6 +55,8 @@ app.post(lienAjouter, function (req, res) {
 
 // -- UPDATE
 app.put(lienModifier, function (req, res) {
+    console.log("Module: UPDATE");
+
     mongoose.model('Module').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedModule)=>{
        if(err){
             res.redirect(lienErreur);
@@ -59,6 +68,8 @@ app.put(lienModifier, function (req, res) {
 
 // -- DELETE
 app.delete(lienSupprimer, function (req, res) {
+    console.log("Module: DELETE");
+
     let Module = mongoose.model('Module');
     Module.find({id : req.params.id}).deleteOne().then(()=>{
         res.redirect(lienAll);
@@ -69,6 +80,8 @@ app.delete(lienSupprimer, function (req, res) {
 
 // -- READ
 app.get(lienGet, function (req, res) {
+    console.log("Module: READ");
+
     mongoose.model('Module').findOne({id : req.params.id}).then((module)=>{
         if(module){
             res.render(pageModule, module);

@@ -23,11 +23,15 @@ pageApprenant = '';
 
 // -- ERROR
 app.get(lienErreur, function(req, res) {
+    console.log("Apprenant: ERROR");
+
     res.render(pageErreur);
 })
 
 // -- FIND ALL
 app.get(lienAll, function (req, res) {
+    console.log("Apprenant: FIND ALL");
+
     let Apprenant = mongoose.model('Apprenant');
     Apprenant.find().then((apprenants)=>{
         res.render(pageApprenants, apprenants);
@@ -35,6 +39,8 @@ app.get(lienAll, function (req, res) {
 });
 // -- CREATE
 app.post(lienAjouter, function (req, res) {
+    console.log("Apprenant: CREATE");
+
     let Apprenant = mongoose.model('Apprenant');
     let newApprenant = new Apprenant(req.body);
     newApprenant.id = newApprenant._id;
@@ -48,6 +54,8 @@ app.post(lienAjouter, function (req, res) {
 
 // -- UPDATE
 app.put(lienModifier, function (req, res) {
+    console.log("Apprenant: UPDATE");
+
     mongoose.model('Apprenant').updateOne({id : req.params.id}, {$set : req.body}, (err, updatedApprenant)=>{
        if(err){
             res.redirect(lienErreur);
@@ -59,6 +67,8 @@ app.put(lienModifier, function (req, res) {
 
 // -- DELETE
 app.delete(lienSupprimer, function (req, res) {
+    console.log("Apprenant: DELETE");
+
     let Apprenant = mongoose.model('Apprenant');
     Apprenant.find({id : req.params.id}).deleteOne().then(()=>{
         res.redirect(lienAll);
@@ -69,6 +79,8 @@ app.delete(lienSupprimer, function (req, res) {
 
 // -- READ
 app.get(lienGet, function (req, res) {
+    console.log("Apprenant: READ");
+
     mongoose.model('Apprenant').findOne({id : req.params.id}).then((apprenant)=>{
         if(apprenant){
             res.render(pageApprenant, apprenant);

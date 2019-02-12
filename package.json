@@ -1,11 +1,30 @@
 {
-    "name": "comm_e_miage_back",
-    "version": "0.1.0",
-    "dependencies": {
-        "bluebird": "^3.5.3",
-        "body-parser": "^1.18.3",
-        "cookie-session": "^2.0.0-beta.3",
-        "express": "^4.16.4",
-        "mongoose": "^5.4.6"
-    }
+  "name": "comm_e_miage_back",
+  "version": "0.1.0",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.4.10"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha"
+  },
+  "description": "",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fakihD/commEMIAGE-Back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fakihD/commEMIAGE-Back/issues"
+  },
+  "homepage": "https://github.com/fakihD/commEMIAGE-Back#readme"
 }

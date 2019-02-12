@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-mongoose.connect("mongodb://localhost/COMEMIAGE",{
+mongoose.connect("mongodb://localhost/COMMEMIAGE",{
     useNewUrlParser: true
 }).then(() => {
     console.log('BDD: Connected')
@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/adminstrateurs',require('./routes/AdminstrateurRoute'));
+app.use('/administrateurs',require('./routes/AdministrateurRoute'));
 app.use('/apprenants',require('./routes/ApprenantRoute'));
 app.use('/evaluations',require('./routes/EvaluationRoute'));
 app.use('/filieres',require('./routes/FiliereRoute'));

@@ -1,1 +1,3 @@
-# commEMIAGE-Back - Ce dossier contient quatre dossiers (Models, mongo_bdd,node_modules, routes) et trois fichiers (deux consacrés aux packages, server.js).
+# mongodb-playlist
+Course files for the MongoDB tutorials playlist on The Net Ninja YouTube channel.
+Each branch in this repository corresponds to the ending code of a particular video.
